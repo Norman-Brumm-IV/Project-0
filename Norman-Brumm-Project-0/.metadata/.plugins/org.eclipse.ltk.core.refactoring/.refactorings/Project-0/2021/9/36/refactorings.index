@@ -1,0 +1,31 @@
+1630516666155	Delete element
+1630592460016	Rename resource 'resources.properties'
+1630593914300	Copy packages
+1630605449293	Rename local variable 'randomSSN'
+1630617782690	Move compilation units
+1630617803648	Move compilation unit
+1630623540352	Rename local variable 'ssnName'
+1630624235860	Rename type 'StringTheArraylist'
+1630680973071	Rename local variable 'accounts'
+1630684284734	Delete elements
+1630686669972	Rename local variable 'StringToBeParsed'
+1630692856141	Delete element
+1630692867219	Delete elements
+1630692882478	Delete elements
+1630692885736	Delete elements
+1630692888560	Delete elements
+1630692890850	Delete elements
+1630692893198	Delete elements
+1630692896806	Delete elements
+1630700711754	Rename local variable 'sql2'
+1630700719787	Rename local variable 'sql'
+1630700738322	Rename local variable 'pstmt'
+1630700746847	Rename local variable 'pstmt2'
+1630700751360	Rename local variable 'accPstmt2'
+1630705708756	Rename local variable 'rndm'
+1630711855704	Rename local variable 'andString'
+1630711944284	Rename local variable 'fullArgs'
+1630714731242	Rename type 'GetAllinfo'
+1630715621030	Rename method 'getInfo'
+1630719561346	Rename local variable 'orStatements'
+1630719610164	Rename method 'getInfoWhereAnd'

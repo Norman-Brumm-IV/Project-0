@@ -1,0 +1,33 @@
+package daos;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import sqlCommands.SQLInsert;
+import sqlCommands.SQLPatch;
+import tools.CheckWrongData;
+
+public class PostDAO {
+	Connection conn;
+	private final static String CUSTOMERS = "customers";
+	private final static String ACCOUNTS = "accounts";
+	private final static String USERACCOUNTS = "useraccounts";
+	
+	public PostDAO(Connection conn) {
+		this.conn = conn;
+	}
+	
+	/** Creates a new client return a 201 status code 
+	 * @return True if an account was created, False if a customer with that ID already exists 
+	 * @throws SQLException **/
+	public boolean createCustomer(String ssn) throws SQLException {
+		if(CheckWrongData.doesSomethingExistInTable(conn, CUSTOMERS, "ssn", ssn)) {
+			SQLInsert.newCustomer(conn, ssn, "N/A");
+			return true;
+		}
+		return false;
+	}
+	
+	
+
+}

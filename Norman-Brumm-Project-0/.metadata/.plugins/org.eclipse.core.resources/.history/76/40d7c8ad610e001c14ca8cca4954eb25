@@ -1,0 +1,33 @@
+package daos;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import daoModels.CustomersRow;
+import sqlCommands.SQLGet;
+
+public class DAO {
+	Connection conn;
+	
+	public DAO(Connection conn) {
+		this.conn = conn;
+	}
+	
+	public ArrayList<CustomersRow> getAll() throws SQLException {
+		ResultSet rs = SQLGet.getTable(conn, "Customers");
+		ArrayList<CustomersRow> alcr = new ArrayList<CustomersRow>();
+		CustomersRow cr;
+		int ssn;
+		String name;
+		while(rs.next()) {
+			ssn = rs.getInt("ssn");
+			name = rs.getString("name");
+			cr = new CustomersRow(ssn, name);
+			alcr.add(cr);
+		}
+		return alcr;
+	}
+
+}

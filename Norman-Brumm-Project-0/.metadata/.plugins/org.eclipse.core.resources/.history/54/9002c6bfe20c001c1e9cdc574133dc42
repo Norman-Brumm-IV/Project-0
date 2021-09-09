@@ -1,0 +1,12 @@
+package snippet;
+
+public class Snippet {
+	core
+	/Project-0/src/main/java/core/ConnectionDriver.java
+	/Project-0/src/main/java/core/GetInput.java
+	delete
+	get
+	patch
+	/Project-0/src/main/java/patch/
+}
+

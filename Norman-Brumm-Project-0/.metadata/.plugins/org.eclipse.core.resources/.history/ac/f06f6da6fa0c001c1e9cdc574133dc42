@@ -1,0 +1,9 @@
+package errorHandling;
+
+/** This is meant to happen when a string is empty but was passed to a class that needs data in the string **/
+public class emptyStringError extends RuntimeException{
+	public emptyStringError(String errorMessage, Throwable thrown) {
+		
+	}
+
+}

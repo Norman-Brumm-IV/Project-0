@@ -1,0 +1,26 @@
+package daoModels;
+
+import java.util.ArrayList;
+
+public class AccountsTable {
+	private ArrayList<AccountsTableRow> rows;
+	
+	public AccountsTable() {
+		rows = new ArrayList<AccountsTableRow>();
+	}
+
+	public ArrayList<AccountsTableRow> getRows() {
+		return rows;
+	}
+
+	public void addRow(AccountsTableRow row) {
+		rows.add(row);
+	}
+	
+	public AccountsTableRow newRow() {
+		AccountsTableRow row = new AccountsTableRow(); 
+		rows.add(row);
+		return row;
+	}
+
+}

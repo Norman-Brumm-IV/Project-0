@@ -1,0 +1,16 @@
+package core;
+
+public class StringArraytoLongString {
+	public static String toLongString(String[] args) {
+		StringBuilder finalProduct = new StringBuilder();
+		
+		for(String tempString : args) {
+			finalProduct.append(tempString);
+		}
+		String tbr = finalProduct.toString();
+		
+		
+		return tbr;
+	}
+
+}

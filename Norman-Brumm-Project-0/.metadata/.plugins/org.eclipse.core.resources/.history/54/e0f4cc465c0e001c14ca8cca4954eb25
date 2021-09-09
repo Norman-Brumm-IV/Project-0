@@ -1,0 +1,18 @@
+package daoModels;
+
+import java.util.ArrayList;
+
+public class CustomersTable extends TableInterface<CustomersRow> {
+	private ArrayList<CustomersRow> row;
+
+	public CustomersTable() {
+		row = new ArrayList<CustomersRow>();
+	}
+
+	@Override
+	public CustomersRow newRow() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

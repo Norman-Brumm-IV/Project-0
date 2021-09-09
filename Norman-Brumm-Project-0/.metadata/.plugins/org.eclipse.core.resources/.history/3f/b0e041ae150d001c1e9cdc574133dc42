@@ -1,0 +1,37 @@
+package get;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import sqlCommands.GetAllinfo;
+import tools.ArraylistToString;
+
+/**	get all accounts for client 7 between one number and a larger number return 404 if no client exists **/
+public class GetClientsVarAccountsBetween {
+	
+	/**	get all accounts for client 7 between one number and a larger number return 404 if no client exists **/
+	public static String[] getCliVarAccBet(String args, Connection conn) throws SQLException {
+		String[] fullString = args.split("<>");
+		String[] mathComparitors = {"ssn =","amount >","amount <"};
+		String tableName = "useraccounts INNER JOIN (accounts) USING (account)";
+		if(fullString.length<3)
+			return new String[] {"404"};
+
+		ArrayList<String> accounts = new ArrayList<String>();
+		accounts.add("200");
+
+		// to be 100% honest, this might be a little confusing. if it even works after its butchery to use the GetAllInfo class
+		ResultSet rs = GetAllinfo.getInfoWhereAnd(conn, tableName, mathComparitors, fullString);
+        
+        while(rs.next()) {
+        	accounts.add(rs.getInt("account") + ":" + rs.getDouble("amount"));
+        }
+        
+        if(accounts.size()<2)
+        	return new String[] {"404"};
+        return ArraylistToString.toStringArray(accounts);
+	}
+	// return account:amount
+}

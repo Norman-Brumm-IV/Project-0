@@ -1,0 +1,31 @@
+package tools;
+
+/** 
+ * Checks if the input of things are correct for their fields. (not 100% implemented because I only created it near the end after I got tired of checking everything in its own class
+ *  **/
+public class CheckWrongData {
+	/** 
+	 * Checks if any number of strings are empty
+	 * @param strings - any number of strings
+	 *  @return TRUE if any of the strings are empty.
+	 *  **/
+	public static boolean isEmptyString(String... strings) {
+		for(String tempo : strings)
+			if(tempo.isEmpty())
+				return true;
+		return false;
+	}
+
+	/**
+	 * I know that ssn and account numbers are exactly 9 long, so this checks that
+	 * @param strings - any number of strings. Expected length is 9
+	 * @return TRUE if any of the strings are longer or shorter than 9
+	 *  **/
+	public static boolean isSSNOrAccountNumber(String... strings) {
+		for(String tempo : strings)
+			if(tempo.length()!=9)
+				return true;
+		return false;
+	}
+
+}

@@ -1,0 +1,36 @@
+package get;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**get account 4 for client 9 return 404 if no account or client exists**/
+public class GetClientsVarAccountsVar {
+	/**get account 4 for client 9 return 404 if no account or client exists
+	 * @throws SQLException **/
+	public static String[] getCliAccVar(String args, Connection conn) throws SQLException {
+		String[] fullString = args.split("<>");
+
+        // getting all clients who have that ssn. there is only 1 because that field is unique
+		String sql = "SELECT * FROM useraccounts LEFT JOIN (accounts) ON (useraccounts.account = accounts.account) WHERE ssn = ? AND account = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		if(args.isEmpty())
+			return new String[] {"404"};
+
+		pstmt.setString(1, fullString[0]);
+		pstmt.setString(2, fullString[1]);
+
+		ArrayList<String> accounts = new ArrayList<String>();
+		accounts.add("200");
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+			accounts.add("" + rs.getDouble("amount"));
+		
+		
+		return new String[] {"404"};
+	}
+}

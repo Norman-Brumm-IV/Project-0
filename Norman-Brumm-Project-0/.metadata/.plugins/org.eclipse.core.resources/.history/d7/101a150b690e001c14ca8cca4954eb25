@@ -1,0 +1,22 @@
+package daoModels;
+
+public class AccountsTableRow extends RowGeneric{
+	private int account;
+	private double amountInAccount;
+
+	public AccountsTableRow() {}
+	
+	public int getAccount() {
+		return account;
+	}
+	public void setAccount(int account) {
+		this.account = account;
+	}
+	public double getAmountInAccount() {
+		return amountInAccount;
+	}
+	public void setAmountInAccount(double amountInAccount) {
+		this.amountInAccount = amountInAccount;
+	}
+
+}

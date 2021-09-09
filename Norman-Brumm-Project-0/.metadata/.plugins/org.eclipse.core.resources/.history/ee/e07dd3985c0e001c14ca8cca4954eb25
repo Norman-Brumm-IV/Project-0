@@ -1,0 +1,18 @@
+package daoModels;
+
+import java.util.ArrayList;
+
+public abstract class TableInterface<row> {
+	private ArrayList<row> row;
+	
+	public ArrayList<row> getRows(){
+		return row;
+	};
+	
+	public void addRow(row row) {
+		this.row.add(row);
+	}
+	
+	public abstract row newRow();
+
+}

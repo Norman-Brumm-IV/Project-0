@@ -1,0 +1,30 @@
+package daoModels;
+
+import java.util.ArrayList;
+
+import org.hamcrest.core.IsInstanceOf;
+
+public class CustomersTable implements TableInterface<CustomersRow> {
+	private ArrayList<CustomersRow> row;
+
+	public CustomersTable() {
+		row = new ArrayList<CustomersRow>();
+	}
+
+	@Override
+	public ArrayList<CustomersRow> getRows() {
+		return this.row;
+	}
+
+	@Override
+	public void addRow(CustomersRow row) {
+		this.row.add(row);
+		return true;
+	}
+
+	@Override
+	public CustomersRow newRow() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

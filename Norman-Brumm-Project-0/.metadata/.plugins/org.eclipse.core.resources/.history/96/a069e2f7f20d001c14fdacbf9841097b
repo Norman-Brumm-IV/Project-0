@@ -1,0 +1,19 @@
+package tools;
+
+/** 
+ * Checks if the input of things are correct for their fields
+ *  **/
+public class CheckWrongData {
+	/** 
+	 * Checks if any number of strings are empty
+	 * @param strings - any number of strings
+	 *  @return TRUE if any of the strings are empty.
+	 *  **/
+	public static boolean isEmptyString(String... strings) {
+		for(String tempo : strings)
+			if(tempo.isEmpty())
+				return true;
+		return false;
+	}
+
+}

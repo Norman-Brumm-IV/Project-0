@@ -1,0 +1,19 @@
+package tools;
+
+import org.junit.Test;
+
+import junit.framework.Assert;
+
+public class CheckWrongData_Test {
+	
+	
+	@Test
+	public void checkIsEmpty() {
+		Assert.assertEquals("result should be false", false, CheckWrongData.isEmptyString("1","22","333","444"));
+		Assert.assertEquals("result should be false", true, CheckWrongData.isEmptyString("1","22","333","444", null));
+		Assert.assertEquals("result should be true", true, CheckWrongData.isEmptyString("1","22","333",""));
+		Assert.assertEquals("result should be true", true, CheckWrongData.isEmptyString("1","22","","444"));
+		Assert.assertEquals("result should be true", true, CheckWrongData.isEmptyString("1","","333","444"));
+		Assert.assertEquals("result should be true", true, CheckWrongData.isEmptyString("","22","333","444"));
+	}
+}

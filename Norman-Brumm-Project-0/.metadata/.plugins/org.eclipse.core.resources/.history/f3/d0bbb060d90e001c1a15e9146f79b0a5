@@ -1,0 +1,26 @@
+package daos;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import sqlCommands.SQLPatch;
+import tools.CheckWrongData;
+
+public class PutDAO {
+	Connection conn;
+	private final static String CUSTOMERS = "customers";
+	private final static String ACCOUNTS = "accounts";
+	private final static String USERACCOUNTS = "useraccounts";
+	
+	public PutDAO(Connection conn) {
+		this.conn = conn;
+	}
+
+	public boolean updateCustomerName(String ssn, String name) throws SQLException {
+		if(CheckWrongData.doesSomethingExistInTable(conn, CUSTOMERS, "ssn", ssn)) {
+			SQLPatch.updateValue(conn, CUSTOMERS, "name", name, "ssn", ssn);
+			return true;
+		}
+		return false;
+	}
+}

@@ -1,0 +1,35 @@
+package put;
+
+import java.sql.Connection;
+
+import tools.CheckWrongData;
+
+/** update account with the id 3 for client 10 return 404 if no account or client exists **/
+public class PutClientsVarAccountsVar {
+
+	/** Update an account amount. This one seems dangerous. 
+	 * 
+	 * @param conn - Connection to the database
+	 * @param args - Should be ssn, account number, new amount, seperated by <>
+	 * @return 404 if no account or client exists
+	 * **/
+	public static String[] putCliVarAcc(Connection conn, String args) {
+		// 1. make sure args isnt empty
+		if(CheckWrongData.isEmptyString(args))
+			return new String [] {"404"};
+		// 2. split it into its various pieces
+		String[] stringArray = args.split("<>");
+		// 3. make sure that there are at least 3 seperate pieces
+		if(stringArray.length<3)
+			return new String [] {"404"};
+		// 4. turn stringArray into readable variable names
+		String ssn = stringArray[0];
+		String accountNumber = stringArray[1];
+		String newAmount= stringArray[2];
+		// 4. make sure that ssn and account number are the correct format
+		if(!CheckWrongData.checkSSNAndAccountNumber(ssn, accountNumber))
+			return new String [] {"404"};
+		
+		return new String[] {"404"};
+	}
+}

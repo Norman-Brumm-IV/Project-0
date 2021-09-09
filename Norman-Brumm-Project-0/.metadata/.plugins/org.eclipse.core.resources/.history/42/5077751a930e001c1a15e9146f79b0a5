@@ -1,0 +1,11 @@
+package https;
+
+import io.javalin.http.Context;
+
+/**	Holds all of the delete http calls **/
+public class Delete {
+	/**	deletes client with the id of 15 return 404 if no such client exist return 205 if success **/
+	public static void delCliID(Context ctx) {
+		
+	}
+}

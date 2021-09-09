@@ -1,0 +1,52 @@
+package patch;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**	transfer funds from account 7 to account 8 (Body: {"amount":500}) return 404 if no client or either account exists return 422 if insufficient funds **/
+public class PatchClientsVarAccountsVarTransferVar {
+	/**	transfer funds from account 7 to account 8 (Body: {"amount":500}) return 404 if no client or either account exists return 422 if insufficient funds 
+	 * input - From account, To account, funds
+	 * @throws SQLException **/
+	public static String[] patCliVarAccVarTra(String args, Connection conn) throws SQLException {
+		String[] fullString = args.split("<>");
+		
+		if(fullString.length<3)
+			return new String[] {"404"};
+		
+        // the first account should be the account we are transferring from, the second we are transferring to
+		String sql = "SELECT * FROM accounts WHERE account = ? OR account = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+
+		pstmt.setString(1, fullString[0]);
+		pstmt.setString(2, fullString[1]);
+		
+		int[] accountBalance = new int[2];
+		
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		int i = 0;
+		while(rs.next()) {
+			// shouldnt need this if, there should only be 2 results
+			if(i<2)
+				accountBalance[i] = rs.getInt("account");
+			i++;
+		}
+		
+		//I have the account balances now
+		accountBalance[0] -= Integer.parseInt(fullString[2]);
+		
+		//if removing the funds from the first account would send it negative, then return the code without changing the database
+		if(accountBalance[0]<0)
+			return new String[] {"422"};
+			
+		
+		
+	
+		return new String[] {"404", "402"};
+	}
+}

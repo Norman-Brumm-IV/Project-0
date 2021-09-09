@@ -1,0 +1,13 @@
+package put;
+
+import java.sql.Connection;
+
+public class PutClientsVarAccountsVar {
+
+	public static String[] putCliVarAcc(Connection conn, String args) {
+		// TODO Auto-generated method stub
+		
+		return new String[] {"404"};
+	}
+//	update account with the id 3 for client 10 return 404 if no account or client exists
+}

@@ -1,0 +1,86 @@
+package patch;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import sqlCommands.SQLGet;
+import sqlCommands.SQLPatch;
+
+/**	Withdraw/deposit given amount (Body: {"deposit":500} or {"withdraw":250} return 404 if no account or client exists return 422 if insufficient funds **/
+public class PatchClientsVarAccountsVar {
+	private static final String tableName = "accounts";
+	private static final String[] mathComparitors = {"ssn =", "account ="};
+
+	/**	Withdraw/deposit given amount (Body: {"deposit":500} or {"withdraw":250} return 404 if no account or client exists return 422 if insufficient funds 
+	 * @throws SQLException **/
+	public static String[] patCliVarAccVar(String args, Connection conn) throws SQLException {
+		String[] accounts = new String[2];
+		String[] fullString = args.split("<>");
+		
+		double amountInAccount = -1;
+		
+		if(fullString.length<4)
+			return new String[] {"404"};
+		
+		accounts[0] = "200";
+		ResultSet rs = SQLGet.getInfoWhereAndOr(true, conn, "useraccounts INNER JOIN (accounts) USING (account)", mathComparitors, new String[] {fullString[0], fullString[1]});
+		
+		//leaving it in a while loop just to make sure that it has a next and wont error
+		while(rs.next())
+			amountInAccount=rs.getDouble("amount");
+		
+		if(amountInAccount<0)
+			return new String[] {"404"};
+		
+		double amountChangedBy = Double.parseDouble(fullString[3]);
+
+		switch(fullString[2].toLowerCase()) {
+		case "deposit":
+			depositIntoAccountsTable(conn, Integer.parseInt(fullString[3]), fullString[1]);
+			// not changing the amount in the database, just the local variable
+			amountInAccount = amountInAccount + amountChangedBy;
+			break;
+		case "withdraw":
+			// updating the amount in the account, then checking if its negative or not
+			// not changing the amount in the database, just the local variable
+			amountInAccount = amountInAccount - amountChangedBy;
+		}
+		// either withdrawn or deposited, the amount should be positive according to the endpoint. this just makes sure of that.
+		if(amountChangedBy<0)
+			return new String[] {"404"};
+		
+		//if changing the amount would send you into the negatives
+		if(amountInAccount<0)
+			return new String[] {"422"};
+		
+		String setColumnName = "amount";
+		String setChange = String.valueOf(amountInAccount);
+		String whereColumn = "account";
+		String whereSelection = fullString[1];
+		
+		SQLPatch.updateValue(conn, tableName, setColumnName, setChange, whereColumn, whereSelection);
+		return new String[] {"200"};
+	}
+	
+	// these following methods are so I can call this class to make my transfers as well. Make any checks before calling this method. 
+	/** when depositing money. Make sure the account exists before calling this method 
+	 * @throws SQLException **/
+	public static void depositIntoAccountsTable(Connection conn, int accountDeposit, String accountNumber) throws SQLException {
+		ResultSet rs = SQLGet.getInfoWhere(conn, tableName, "account", accountNumber);
+		int finalAmount = 0;
+		
+		while(rs.next()) {
+			finalAmount = rs.getInt("amount");
+			break;
+		}
+		
+		SQLPatch.updateValue(conn, tableName, "amount", String.valueOf(finalAmount), "account", accountNumber);
+		
+		
+	}
+	
+	public static void withdraw() {
+		
+	}
+}

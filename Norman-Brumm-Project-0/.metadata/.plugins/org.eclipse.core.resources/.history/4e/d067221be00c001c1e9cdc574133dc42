@@ -1,0 +1,92 @@
+package tools;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Locale;
+
+import com.github.javafaker.Faker;
+
+import core.ConnectionDriver;
+
+
+// This method should never be called, it was written simply to add data into my database tables
+public class FillTables {
+	public static void main(String[] args) throws SQLException {
+		
+		Connection conn = ConnectionDriver.getConnection();
+		Faker faker = new Faker();
+		for(int i=0;i<10;i++) {
+		String name = faker.funnyName().name();
+		
+		System.out.println();
+		}
+		
+		
+		
+//		String sql = "INSERT INTO customers VALUES ( ? , ? )";
+//		PreparedStatement pstmt = conn.prepareStatement(sql);
+//		
+//		for(int i=0;i<50;i++) {
+//		
+//		pstmt.setString(1, name);
+//		pstmt.setString(1, ssn);
+//		
+//		}
+//		
+//
+//		ArrayList<String> accounts = new ArrayList<String>();
+//		accounts.add("200");
+//		ResultSet rs = pstmt.executeQuery();
+//        
+//		while(rs.next())
+//			accounts.add(rs.getString("name"));
+//		
+//		
+//		
+//
+//		
+//        Statement stmt = conn.createStatement();
+//        ResultSet rs = stmt.executeQuery("SELECT * FROM customers");
+//        int randomAccountNumber;
+//        int randomNumberOfAccounts;
+//        double randomAmountOfMoney;
+//        int ssn;
+//        while(rs.next()) {
+//        	randomNumberOfAccounts = (int) (Math.random()*5);
+//        	
+////        	we have all everything from the customers table. need to grab the ssn and give it a random number of accounts and associate that inside useraccounts
+//        	ssn = rs.getInt("ssn");
+//        	
+//        	
+//        	for(int i=0;i<randomNumberOfAccounts;i++) {
+//        		randomAmountOfMoney = (Math.random()*1000);
+//            	randomAccountNumber = (int) (Math.random()*1000000000);
+//            	
+//            	if(randomAccountNumber<100000000)
+//            		randomAccountNumber += 100000000;
+//        		
+//            	stmt.executeQuery("INSERT INTO accounts VALUES (" 
+//            			+ randomAccountNumber 
+//            			+ ", '" 
+//            			+ randomAmountOfMoney  
+//            			+ "');");
+//       		
+//            	stmt.executeQuery("INSERT INTO useraccounts VALUES (" 
+//            			+ ssn 
+//            			+ ", '" 
+//            			+ randomAccountNumber  
+//            			+ "');");
+//        	}
+//        	
+//        	
+//        	
+//        	
+//        }
+
+	}
+
+}

@@ -1,0 +1,13 @@
+package post;
+
+import java.sql.Connection;
+
+/**	creates a new account for client with the id of 5 return a 201 status code **/
+public class PostClientsVarAccounts {
+
+	/**	creates a new account for client with the id of 5 return a 201 status code **/
+	public static String[] posCliVarAcc(String args, Connection conn) {
+		// TODO Auto-generated method stub
+		return new String[] {"201"};
+	}
+}

@@ -1,0 +1,13 @@
+package get;
+
+import java.sql.Connection;
+
+public class GetClientsVarAccountsVar {
+
+	public static String[] getCliAccVar(String args, Connection conn) {
+		// TODO Auto-generated method stub
+		
+		return new String[] {"404"};
+	}
+//	get account 4 for client 9 return 404 if no account or client exists
+}

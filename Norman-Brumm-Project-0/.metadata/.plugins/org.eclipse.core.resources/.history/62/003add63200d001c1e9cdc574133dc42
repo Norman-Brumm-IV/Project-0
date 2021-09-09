@@ -1,0 +1,19 @@
+package sqlCommands;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class SQLPatch {
+
+	public static void updateValue(Connection conn, String tableName, String setColumnName, String setChange, String whereColumn, String whereSelection) throws SQLException {
+		// "UPDATE accounts SET amount=? WHERE account=?";
+		String sql = "UPDATE " + tableName + " SET " + setColumnName + "=? WHERE " + whereColumn + "=?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, setChange);
+		pstmt.setString(2, whereSelection);
+		pstmt.execute();
+	}
+
+}

@@ -1,0 +1,15 @@
+package main;
+
+public class TestCode {
+
+	public static void main(String[] args) {
+		String first = "one two three";
+		String second = "";
+
+
+		String[] stringArray = first.split(" ");
+		String[] emptyStringArray = second.split(" ");
+}
+	
+
+}

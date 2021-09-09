@@ -1,0 +1,29 @@
+1630848020804	Delete element
+1630848797643	Copy file
+1630849918366	Rename type 'AccountsTable'
+1630850142284	Encapsulate field 'rows'
+1630850751095	Rename method 'delCliV'
+1630851188730	Delete element
+1630852362559	Delete elements
+1630852394657	Delete element
+1630856557845	Delete element
+1630858002736	Rename method 'getAll'
+1630858408139	Rename method 'getByID'
+1630858562719	Rename type 'DAO'
+1630858576933	Rename type 'GetDAObj'
+1630862714570	Rename method 'getClientByID'
+1630862732166	Rename method 'getCustomerByID'
+1630863351920	Rename local variable 'cussTable'
+1630866447130	Rename local variable 'row'
+1630866455152	Rename local variable 'row'
+1630867181776	Rename local variable 'name'
+1630868404502	Rename method 'getAllAccountsColumnsFromResultSet'
+1630878597082	Rename method 'delCliID'
+1630905152099	Rename type 'PostDao'
+1630908081724	Rename type 'putDAO'
+1630910000638	Delete element
+1630910025372	Delete element
+1630910037938	Delete elements
+1630910121248	Delete element
+1630910149304	Delete element
+1630910157059	Delete element

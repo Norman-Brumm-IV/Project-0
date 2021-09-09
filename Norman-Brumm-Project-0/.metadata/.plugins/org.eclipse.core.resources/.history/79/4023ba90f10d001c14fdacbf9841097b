@@ -1,0 +1,12 @@
+package tools;
+
+/** 
+ * Checks if any number of strings are empty
+ *  **/
+public class checkEmpty {
+	public static boolean isEmpty(String... strings) {
+		
+		return true;
+	}
+
+}

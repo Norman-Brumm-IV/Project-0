@@ -1,0 +1,22 @@
+package daos;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import sqlCommands.SQLDelete;
+
+public class DeleteDAO {
+		Connection conn;
+		private final static String customers = "customers";
+		private final static String accounts = "accounts";
+		private final static String userAccounts = "useraccounts";
+		
+		public DeleteDAO(Connection conn) {
+			this.conn = conn;
+		}
+		
+		public void deleteAccount(int accountID) throws SQLException {
+			SQLDelete.deleteRow(conn, accounts, "account", String.valueOf(accountID));
+			
+		}
+}

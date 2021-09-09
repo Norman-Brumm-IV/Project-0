@@ -1,0 +1,11 @@
+package daoModels;
+
+import java.util.ArrayList;
+
+public interface TableInterface<row> {
+	public ArrayList<row> getRows();
+	/** @return True if a row was added, False if it was not **/
+	public boolean addRow(row row);
+	public row newRow();
+
+}

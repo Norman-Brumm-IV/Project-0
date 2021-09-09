@@ -1,0 +1,65 @@
+package patch;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import sqlCommands.SQLGet;
+import sqlCommands.SQLPatch;
+
+/**	Withdraw/deposit given amount (Body: {"deposit":500} or {"withdraw":250} return 404 if no account or client exists return 422 if insufficient funds **/
+public class PatchClientsVarAccountsVar {
+	/**	Withdraw/deposit given amount (Body: {"deposit":500} or {"withdraw":250} return 404 if no account or client exists return 422 if insufficient funds 
+	 * @throws SQLException **/
+	public static String[] patCliVarAccVar(String args, Connection conn) throws SQLException {
+		String[] accounts = new String[2];
+		String[] fullString = args.split("<>");
+		String tableName = "useraccounts INNER JOIN (accounts) USING (account)";
+		String[] mathComparitors = {"ssn =", "account ="};
+		
+		double amountInAccount = -1;
+		
+		if(fullString.length<4)
+			return new String[] {"404"};
+
+		accounts[0] = "200";
+		ResultSet rs = SQLGet.getInfoWhereAndOr(true, conn, tableName, mathComparitors, new String[] {fullString[0], fullString[1]});
+		
+		//leaving it in a while loop just to make sure that it has a next and wont error
+		while(rs.next())
+			amountInAccount=rs.getDouble("amount");
+		
+		if(amountInAccount<0)
+			return new String[] {"404"};
+		
+		double amountChangedBy = Double.parseDouble(fullString[3]);
+		
+		// either withdrawn or deposited, the amount should be positive according to the endpoint. this just makes sure of that.
+		if(amountChangedBy<0)
+			return new String[] {"404"};
+		
+		switch(fullString[2].toLowerCase()) {
+		case "deposit":
+			// not changing the amount in the database, just the local variable
+			amountInAccount = amountInAccount + amountChangedBy;
+			break;
+		case "withdraw":
+			// updating the amount in the account, then checking if its negative or not
+			// not changing the amount in the database, just the local variable
+			amountInAccount = amountInAccount - amountChangedBy;
+		}
+		
+		//if changing the amount would send you into the negatives
+		if(amountInAccount<0)
+			return new String[] {"422"};
+		
+		tableName = "accounts";
+		String setColumnName = "amount";
+		String setChange = String.valueOf(amountInAccount);
+		String whereColumn = "account";
+		String whereSelection = fullString[1];
+		
+		SQLPatch.updateValue(conn, tableName, setColumnName, setChange, whereColumn, whereSelection);
+		return new String[] {"200"};
+	}
+}

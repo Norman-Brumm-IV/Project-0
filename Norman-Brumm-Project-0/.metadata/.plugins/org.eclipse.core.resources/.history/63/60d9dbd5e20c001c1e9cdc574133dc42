@@ -1,0 +1,11 @@
+package put;
+
+public class PutClientsVarAccountsVar {
+
+	public static String[] putCliVarAcc(String args) {
+		// TODO Auto-generated method stub
+		
+		return new String[] {"404"};
+	}
+//	update account with the id 3 for client 10 return 404 if no account or client exists
+}

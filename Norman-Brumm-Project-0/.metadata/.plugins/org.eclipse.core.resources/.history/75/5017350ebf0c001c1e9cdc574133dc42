@@ -1,0 +1,28 @@
+package patch;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
+/**	transfer funds from account 7 to account 8 (Body: {"amount":500}) return 404 if no client or either account exists return 422 if insufficient funds **/
+public class PatchClientsVarAccountsVarTransferVar {
+	/**	transfer funds from account 7 to account 8 (Body: {"amount":500}) return 404 if no client or either account exists return 422 if insufficient funds 
+	 * input - From account, To account, funds**/
+	public static String[] patCliVarAccVarTra(String args, Connection conn) {
+        // getting all clients who have that ssn. there is only 1 because that field is unique
+		String sql = "SELECT * FROM accounts WHERE account = ? OR account = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		if(args.isEmpty())
+			return new String[] {"404"};
+
+		pstmt.setString(1, args);
+
+		ArrayList<String> accounts = new ArrayList<String>();
+		accounts.add("200");
+		ResultSet rs = pstmt.executeQuery();
+	
+		return new String[] {"404", "402"};
+	}
+}

@@ -1,0 +1,21 @@
+1630800189140	Rename local variable 'savedAccount'
+1630800825687	Rename local variable 'transferredOutOf'
+1630802619988	Rename local variable 'orMathStatements'
+1630802628996	Rename local variable 'andMathStatements'
+1630803044965	Rename field 'tableName'
+1630803264898	Rename local variable 'accountDeposit'
+1630803536955	Rename field 'fottError'
+1630803545507	Rename field 'fofError'
+1630805852452	Rename local variable 'args'
+1630807027605	Rename local variable 'mathComparitors'
+1630807135792	Rename local variable 'comparitors'
+1630809170900	Rename type 'checkEmpty'
+1630809174485	Rename type 'checkWrongData'
+1630809793610	Rename method 'isSSNorAccountNumber'
+1630809816660	Rename method 'isSSNOrAccountNumber'
+1630811513359	Rename method 'isSSNOrAccountNumberWrongLength'
+1630847996253	Copy package
+1630848007070	Copy file
+1630848016863	Copy file
+1630850933886	Copy package
+1630850954208	Copy package

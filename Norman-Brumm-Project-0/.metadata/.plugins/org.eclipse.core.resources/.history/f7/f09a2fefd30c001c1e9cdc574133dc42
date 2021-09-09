@@ -1,0 +1,8 @@
+package tools;
+
+public class InputTextParser {
+	public static String parsText(String args) {
+		
+		return args;
+	}
+}

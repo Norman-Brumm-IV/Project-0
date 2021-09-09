@@ -1,0 +1,14 @@
+package main;
+
+public class TestCode {
+
+	public static void main(String[] args) {
+		String nums = "123456789";
+		String[] stringArray = nums.split("1");
+		
+		for(String temp : stringArray)
+			System.out.println(temp);
+}
+	
+
+}

@@ -1,0 +1,10 @@
+package tools;
+
+/** takes the incoming text and changes it to how the individual classes will read it **/
+public class InputTextParser {
+	/** takes the incoming text and changes it to how the individual classes will read it **/
+	public static String parsText(String args) {
+		
+		return args;
+	}
+}

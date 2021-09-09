@@ -1,0 +1,46 @@
+package post;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import sqlCommands.SQLGet;
+import sqlCommands.SQLInsert;
+
+/**	creates a new account for client with the id of 5 return a 201 status code **/
+public class PostClientsVarAccounts {
+	private static final String[] e400 = new String[] {"400"};
+	private static final String[] e404 = new String[] {"404"};
+	
+	
+	/**	creates a new account for client with the id of 5 return a 201 status code.
+	 * Input -> ssn 
+	 * @throws SQLException 
+	 * **/
+	public static String[] posCliVarAcc(String ssnString, Connection conn) throws SQLException {
+		int ssn;
+// 1. make sure that the ssn is 9 chars long
+		if(ssnString.length()<9)
+			return e400;
+// 2. make sure that its an int
+		try {
+			ssn = Integer.parseInt(ssnString);
+		} catch(NumberFormatException e) {
+			// TODO add in logging info here
+			e.printStackTrace();
+			return e400;
+		}
+		
+// 3. make sure that the client exists		
+		ResultSet rs = SQLGet.getInfoWhere(conn, "customers", "ssn", ssnString);
+		if(!rs.next())
+			return e404;
+
+// 4. add an account with a negative number so it can be found TODO: ask instructor if there is a better way
+		int accountNumber = SQLInsert.newAccount(conn);
+		
+		
+		
+		return new String[] {"201"};
+	}
+}

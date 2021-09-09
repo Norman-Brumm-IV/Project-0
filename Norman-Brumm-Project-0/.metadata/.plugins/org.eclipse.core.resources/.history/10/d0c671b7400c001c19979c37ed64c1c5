@@ -1,0 +1,57 @@
+package delete;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+public class DeleteClientsVar {
+//	deletes client with the id of 15 return 404 if no such client exist return 205 if success
+	public static String[] delCliV(String args, Connection conn) throws SQLException {
+		ArrayList<Integer> accounts = new ArrayList<Integer>();
+
+		// getting all the account numbers that are connected to the ssn that we passed in
+		String sql = "SELECT account FROM useraccounts WHERE ssn = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		if(args.isBlank())
+			return new String[] {"404"};
+
+		pstmt.setString(1, args);
+		
+		pstmt.execute();
+		ResultSet rs = pstmt.getResultSet();
+		
+        while(rs.next())
+        	accounts.add(rs.getInt("account"));
+
+//		if the account does not exist return 404
+        if(accounts.isEmpty())
+        	return new String[] {"404"};
+
+    	sql = "DELETE FROM accounts WHERE account = ? ";
+
+        // Deletes the accounts
+        for(int acc : accounts) {
+        	PreparedStatement pps = conn.prepareStatement(sql);
+        	pps.setInt(1, acc);
+        	pps.executeQuery();
+        }
+        sql = "DELETE FROM customers WHERE ssn = ?";
+    	PreparedStatement pps = conn.prepareStatement(sql);
+    	pps.setString(1, args);
+    	pps.executeQuery();
+        
+		
+		/*
+		 * END of SQL code Section
+		 */
+		
+//		if the account does exist
+			return new String[] {"205"};
+		
+	}
+	
+}

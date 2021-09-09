@@ -1,0 +1,30 @@
+package get;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+public class GetClientsVarAccounts {
+
+	public static String[] getCliVarAcc(String args, Connection conn) throws SQLException {
+		ArrayList<String> accounts = new ArrayList<String>();
+		accounts.add("200");
+		
+        Statement stmt = conn.createStatement();
+        
+        // 
+        ResultSet rs = stmt.executeQuery("SELECT account FROM useraccounts WHERE ssn='" + args + "'");
+        System.out.println(rs.getFetchSize());
+        while(rs.next()) {
+        	accounts.add(rs.getString("account"));
+        }
+        
+        String tempVar[] = new String[accounts.size()];
+		
+		
+		return new String[] {"404"};
+	}
+//	 get all accounts for client 7 return 404 if no client exists
+}

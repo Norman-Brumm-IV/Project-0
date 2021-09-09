@@ -1,0 +1,27 @@
+package get;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+public class GetClientsVarAccountsBetween {
+
+	public static String[] getCliVarAccBet(String args, Connection conn) throws SQLException {
+		boolean accountExists = false;
+		ArrayList<Integer> accounts = new ArrayList<Integer>();
+		
+        Statement stmt = conn.createStatement();
+        
+        // getting all the account numbers that are connected to the ssn that we passed in
+        ResultSet rs = stmt.executeQuery("SELECT * FROM useraccounts WHERE ssn = '" + args + "'");
+        while(rs.next()) {
+        	
+        	
+        }
+		return new String[] {"404"};
+	}
+//	get all accounts for client 7 between one number and a larger number return 404 if no client exists
+	// return account:amount
+}

@@ -1,0 +1,10 @@
+package https;
+
+import io.javalin.http.Context;
+
+public class Post {
+
+	public static void createCustomer(Context ctx) {
+		
+	}
+}

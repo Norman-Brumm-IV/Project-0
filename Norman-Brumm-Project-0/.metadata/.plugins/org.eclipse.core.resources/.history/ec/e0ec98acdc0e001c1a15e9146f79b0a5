@@ -1,0 +1,11 @@
+package daoModels;
+
+public class CustomersTable extends TableInterface<CustomersRow> {
+
+	@Override
+	public CustomersRow newRow() {
+		CustomersRow newRow = new CustomersRow();
+		this.addRow(newRow);
+		return newRow;
+	}
+}

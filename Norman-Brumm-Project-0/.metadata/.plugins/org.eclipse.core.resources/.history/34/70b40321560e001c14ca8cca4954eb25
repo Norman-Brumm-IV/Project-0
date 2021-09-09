@@ -1,0 +1,23 @@
+package daoModels;
+
+import tools.CheckWrongData;
+
+public abstract class TablesModel {
+	private Object[][] twoColumns = new Object[2][2];
+	
+	/** 
+	 * Sets the column names.
+	 * @param columnNameOne - Name of the first column
+	 * @param columnNameTwo - Name of the second column
+	 * @return TRUE if the names were set, FALSE if they were not set
+	 * **/
+	protected boolean setColumnNames(String columnNameOne, String columnNameTwo) {
+		if(CheckWrongData.isEmptyString(columnNameOne, columnNameTwo)) {
+			// TODO add logging here
+			return false;
+		}
+		twoColumns[0][0] = columnNameOne;
+		twoColumns[0][1] = columnNameTwo;
+		return true;
+	}
+}

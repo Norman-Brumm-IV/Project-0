@@ -1,0 +1,30 @@
+package patch;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**	Withdraw/deposit given amount (Body: {"deposit":500} or {"withdraw":250} return 404 if no account or client exists return 422 if insufficient funds **/
+public class PatchClientsVarAccountsVar {
+	/**	Withdraw/deposit given amount (Body: {"deposit":500} or {"withdraw":250} return 404 if no account or client exists return 422 if insufficient funds 
+	 * @throws SQLException **/
+	public static String[] patCliVarAccVar(String args, Connection conn) throws SQLException {
+
+        // getting all clients who have that ssn. there is only 1 because that field is unique
+		String sql = "SELECT * FROM customers WHERE ssn = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		if(args.isEmpty())
+			return new String[] {"404"};
+
+		pstmt.setString(1, args);
+
+		ArrayList<String> accounts = new ArrayList<String>();
+		accounts.add("200");
+		ResultSet rs = pstmt.executeQuery();
+		
+		return new String[] {"404", "422"};
+	}
+}

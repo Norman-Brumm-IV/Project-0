@@ -1,0 +1,130 @@
+package tools;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Locale;
+
+import com.github.javafaker.Faker;
+
+import core.ConnectionDriver;
+
+
+/* 
+ * This method should never be called, it was written simply to add data into my database tables
+ * I also made it way more complicated than it really needed
+ */
+public class FillTables {
+	public static void main(String[] args) throws SQLException {
+		// I only have a correct account number if the database is empty and has not been touched yet.
+		int accountNumber = 123456789;
+		
+		Connection conn = ConnectionDriver.getConnection();
+		Faker faker = new Faker(new Locale("en-US"));
+		String name;
+		String[] ssn = new String[50];
+		
+		
+		String sql4customers = "INSERT INTO customers VALUES ( ? , ? )";
+		String sql4accounts = "INSERT INTO accounts (amount) VALUES ( ? )";
+		String sql4userAccounts = "INSERT INTO useraccounts (ssn ,account) VALUES ( ? , ? )";
+		
+		PreparedStatement cusPstmt = conn.prepareStatement(sql4customers);
+		PreparedStatement accPstmt = conn.prepareStatement(sql4accounts);
+		PreparedStatement uacPstmt = conn.prepareStatement(sql4userAccounts);
+		
+		
+		/* this for loop will:
+		 * 		1. create a user
+		 * 		2. create a number of accounts for that user
+		 * 		3. associate those accounts with that user
+		 * 		4. 12% (arbitrary number) chance to associate that account with another user as well
+		 */
+
+		for(int i=0;i<50;i++) {
+			/*
+			 * -------------------------------------------------------------------------
+			 * this section for adding data to the customers table 
+			 * ------------------------------------------------------------------------
+			 */
+			name  = faker.funnyName().name();
+			ssn[i] = SSNbuilder();
+			cusPstmt.setString(1, name);
+			cusPstmt.setString(2, ssn[i]);
+			
+			cusPstmt.execute();
+			
+			/*
+			 * -------------------------------------------------------------------------
+			 * this section for adding values to the accounts table. 
+			 * INSERT INTO accounts (amount) VALUES ( ? )
+			 * Adding a random number of loops so that there is a chance for more than 
+			 * just a single account per user. but the statement on the outside of the
+			 * loop is to make sure there is at least one.
+			 * ------------------------------------------------------------------------
+			 */
+			int rndmLengthLoop = (int)(Math.random()*10); //0-9
+			double rndmDouble = Math.random() * 5000; //0-4999 
+	
+			// I also didnt need to make it a new int, I could have assigned the hardcoded starting number to accountNumberChanges and then incremented it
+	
+			accPstmt.setDouble(1, rndmDouble); // created a set account with a random amount of money
+			accPstmt.execute();
+	
+			// Time to assign it to the last person created 
+			
+			// INSERT INTO useraccounts (ssn ,account) VALUES ( ? , ? )
+			uacPstmt.setString(1, ssn[i]);
+			uacPstmt.setInt(2, accountNumber);
+			uacPstmt.execute();
+			accountNumber++;
+			
+					
+			for(int j=5;j<rndmLengthLoop;j++) {
+				rndmDouble = Math.random() * 5000;
+				
+				accPstmt.setDouble(1, rndmDouble);
+				accPstmt.execute();
+	
+				/*
+				 * -------------------------------------------------------------------------
+				 * this section for associating users and their accounts 
+				 * ------------------------------------------------------------------------
+				 * INSERT INTO useraccounts (ssn ,account) VALUES ( ? , ? )
+				 */
+				uacPstmt.setInt(2, accountNumber);
+				uacPstmt.execute();
+				accountNumber++;
+			}
+			
+			/*
+			 * -------------------------------------------------------------------------
+			 * this section for the 12% chance that we associate the account with another 
+			 * person. if statistics work perfectly (aka. not at all like statistics), we 
+			 * will get 6 accounts with 2 users
+			 * ------------------------------------------------------------------------
+			 */
+			int soIcanSee = (int)(Math.random()*100);
+			
+			if(soIcanSee<20 && i<1) { // if this isnt the first 2 accounts and a random number between 0 and 99 is less than 20
+				int soIcanSeeTwo = (int)(Math.random()*i);
+				
+				System.out.println("i: " + i);
+				System.out.println("soIcanSeeTwo: " + soIcanSeeTwo);
+
+				
+				uacPstmt.setInt(1, soIcanSeeTwo); // assigning the ssn to be a random number between 0 and the current number of users
+				uacPstmt.execute();
+			}
+		}
+	}
+
+	private static String SSNbuilder() {
+		int first, last;
+		first = (int) (Math.random()*850)+100; // 100-949
+		last = (int) (Math.random()*8500)+1000; // 1000-9499
+
+		return first + "00" + last;
+	}
+
+}

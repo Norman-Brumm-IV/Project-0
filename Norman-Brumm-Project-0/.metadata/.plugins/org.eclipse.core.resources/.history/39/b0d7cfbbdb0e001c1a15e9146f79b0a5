@@ -1,0 +1,31 @@
+package https;
+
+import java.sql.SQLException;
+
+import core.ConnectionDriver;
+import daos.PutDAO;
+import io.javalin.http.Context;
+import tools.CheckWrongData;
+
+public class Put {
+	/**  updates client with id of 12 return 404 if no such client exist **/
+	public static void updateCustomerName(Context ctx) throws SQLException {
+		PutDAO dao = new PutDAO(ConnectionDriver.getConnection());
+		String ssn = ctx.pathParam("id");
+		if(CheckWrongData.checkSSNAndAccountNumber(ssn)) {
+			ctx.status(400);
+			ctx.result("User ID missing or incorrect format");
+			return;
+		}
+		String name =ctx.pathParam("name");
+		if(dao.updateCustomerName(ssn, name)) {
+			ctx.status(200);
+			return;
+		}
+		ctx.status(404);
+	}
+	
+	public static void updateAccountAmount(Context ctx) {
+		
+	}
+}

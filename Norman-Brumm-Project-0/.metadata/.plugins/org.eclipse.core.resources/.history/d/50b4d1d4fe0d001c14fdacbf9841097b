@@ -1,0 +1,49 @@
+package put;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import sqlCommands.SQLPatch;
+import tools.CheckWrongData;
+
+/** updates client with id of 12 return 404 if no such client exist **/
+public class PutClientsVar {
+
+	/** updates client with id of 12 return 404 if no such client exist 
+	 * @param args - should be ssn, name split by <>
+	 * @return 400 if the input is wrong. 404 if no client exists. 201 if everything works.
+	 * @throws SQLException 
+	 * **/
+	public static String[] putCliVar(Connection conn, String args) throws SQLException {
+		String tableName = "clients";
+		String changeColumnName = "name";
+		String selectColumnName = "ssn";
+		
+		
+		// 1. check that args isnt empty
+		if(CheckWrongData.isEmptyString(args))
+			return new String[] {"400"};
+		
+		// 2. split args into its parts
+		String[] tempArray = args.split("<>");
+		
+		// 3. make sure we have enough parts
+		if(tempArray.length<2)
+			return new String[] {"400"};
+		
+		// 4. make sure the ssn part works as an ssn
+		if(CheckWrongData.checkSSNAndAccountNumber(tempArray[0]))
+			return new String[] {"400"};
+		
+		// 5. change tempString to human readable variable names
+		String ssn = tempArray[0];
+		String name = tempArray[1];
+		
+		// 6. change the data
+		SQLPatch.updateValue(conn, tableName, selectColumnName, name, changeColumnName, ssn);
+		
+		
+		
+		return new String[] {"201"};
+	}
+}

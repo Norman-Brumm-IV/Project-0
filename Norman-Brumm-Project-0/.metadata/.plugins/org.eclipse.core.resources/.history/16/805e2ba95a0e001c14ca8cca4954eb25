@@ -1,0 +1,42 @@
+package daoModels;
+
+import java.util.ArrayList;
+
+import org.hamcrest.core.IsInstanceOf;
+
+public class CustomersTable implements TableInterface {
+	private ArrayList<CustomersRow> row;
+
+	public CustomersTable() {
+		row = new ArrayList<CustomersRow>();
+	}
+
+	@Override
+	public RowGeneric newRow() {
+		CustomersRow row = new CustomersRow();
+		this.row.add(row);
+		return row;
+	}
+
+	@Override
+	public boolean addRow(RowGeneric row) {
+		CustomersRow roy = null;
+		try {
+			roy = (CustomersRow)row;
+		} catch(Exception e) {
+			// TODO add logging info here
+			e.printStackTrace();
+			return false;
+		}
+		this.row.add(roy);
+		return true;
+	}
+
+	@Override
+	public ArrayList<RowGeneric> getRows() {
+		return (ArrayList<RowGeneric>)row;
+	}
+	
+	
+
+}

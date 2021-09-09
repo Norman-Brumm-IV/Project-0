@@ -1,0 +1,67 @@
+package daos;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import daoModels.CustomersRow;
+import sqlCommands.SQLGet;
+
+public class GetDAO {
+	Connection conn;
+	private final static String customers = "customers";
+	private final static String accounts = "accounts";
+	private final static String userAccounts = "useraccounts";
+	private static CustomersRow cr;
+	
+	public GetDAO(Connection conn) {
+		this.conn = conn;
+	}
+	
+	public ArrayList<CustomersRow> getAllCustomers() throws SQLException {
+		ResultSet rs = SQLGet.getTable(conn, customers);
+		ArrayList<CustomersRow> alcr = new ArrayList<CustomersRow>();
+		while(rs.next())
+			alcr.add(getAllCustomerColumnsFromResultSet(rs));
+		return alcr;
+	}
+	
+	/** 
+	 * 
+	 * @return null if the customer was not found
+	 * **/
+	public CustomersRow getCustomerAccountByID(int ssnID) throws SQLException {
+		String columnName = "ssn";
+		ResultSet rs = SQLGet.getInfoWhere(conn, accounts, columnName, String.valueOf(ssnID));
+		if(rs.next()) 
+			return getAllCustomerColumnsFromResultSet(rs);
+		return null;
+	}
+	
+	/** 
+	 * 
+	 * @return null if the customer was not found
+	 * **/	public CustomersRow getClientNameByID(int ssnID) throws SQLException {
+		String columnName = "ssn";
+		ResultSet rs = SQLGet.getInfoWhere(conn, customers, columnName, String.valueOf(ssnID));
+		if(rs.next()) {
+			String name = rs.getString("name");
+			CustomersRow cr = new CustomersRow();
+			cr.setName(name);
+			return cr;
+		}
+		return null;
+	}
+	
+	/** This expects the ResultSet to have all of the customers table columns
+	 * @throws SQLException **/
+	private static CustomersRow getAllCustomerColumnsFromResultSet(ResultSet rs) throws SQLException {
+		int ssn = rs.getInt("ssn");
+		String name = rs.getString("name");
+		
+		CustomersRow cr = new CustomersRow(ssn, name);
+		return cr;
+	}
+
+}

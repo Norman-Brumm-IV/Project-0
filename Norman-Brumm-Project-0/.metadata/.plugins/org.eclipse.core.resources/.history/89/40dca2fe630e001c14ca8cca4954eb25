@@ -1,0 +1,26 @@
+package https;
+
+import java.sql.SQLException;
+
+import core.ConnectionDriver;
+import daos.DAO;
+import io.javalin.http.Context;
+
+public class Get {
+	
+	/**  
+	 * Gets all clients
+	 * @throws SQLException 
+	 **/
+	public static void getAllClients(Context ctx) throws SQLException {
+		DAO cussTable = new DAO(ConnectionDriver.getConnection());
+		ctx.json(cussTable.getAllCustomers());
+	}
+	
+	/**get client with id of 10 return 404 if no such client exist **/
+	public static void getClientByID(Context ctx) {
+		DAO cussTable = new DAO(ConnectionDriver.getConnection());
+		
+		ctx.jason(cussTable.getByID());
+	}
+}

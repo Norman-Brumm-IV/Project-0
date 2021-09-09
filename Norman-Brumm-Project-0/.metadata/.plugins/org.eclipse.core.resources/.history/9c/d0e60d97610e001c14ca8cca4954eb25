@@ -1,0 +1,21 @@
+package https;
+
+import java.sql.SQLException;
+
+import core.ConnectionDriver;
+import daoModels.CustomersRow;
+import daos.DAO;
+import io.javalin.http.Context;
+
+public class Get {
+	/**  
+	 * Gets all clients
+	 * @throws SQLException 
+	 **/
+	public static void getAllClients(Context ctx) throws SQLException {
+		DAO cussTable = new DAO(ConnectionDriver.getConnection());
+		CustomersRow row = ctx.bodyAsClass(CustomersRow.class);
+		ctx.json(cussTable.getAll());
+		
+	}
+}

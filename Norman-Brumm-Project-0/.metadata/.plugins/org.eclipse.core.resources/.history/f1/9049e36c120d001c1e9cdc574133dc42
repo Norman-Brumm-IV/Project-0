@@ -1,0 +1,30 @@
+package get;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import sqlCommands.GetAllinfo;
+
+/**	gets all clients return 200 **/
+public class GetClients {
+
+	/**	gets all clients return 200 **/
+	public static String[] getCli(Connection conn) throws SQLException {
+		ArrayList<String> accounts = new ArrayList<String>();
+		accounts.add("200");
+		
+        ResultSet rs = GetAllinfo.getInfo(conn, "customers");
+        
+		while(rs.next()) {
+			accounts.add(rs.getString("name"));
+		}
+		int size = accounts.size();
+		String[] returnArray = new String[size]; 
+		for(int i=0;i<size;i++)
+			returnArray[i] = accounts.get(i);
+		
+		return returnArray;
+	}
+}

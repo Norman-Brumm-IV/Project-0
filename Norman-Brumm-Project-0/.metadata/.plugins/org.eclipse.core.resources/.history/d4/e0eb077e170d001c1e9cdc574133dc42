@@ -1,0 +1,37 @@
+package delete;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import sqlCommands.SQLDelete;
+import sqlCommands.SQLGet;
+
+/**	delete account 6 for client 15 return 404 if no account or client exists **/
+public class DeleteClientsVarAccountsVar {
+	
+	/**	delete account 6 for client 15 return 404 if no account or client exists 
+	 *  input is ssn, then account number, split by <>.	**/
+	public static String[] delCliVarAcc(String args, Connection conn) throws SQLException {
+		String tableName = "useraccounts";
+		String[] mathComparitors = {"ssn =", "account ="};
+		String[] fullArgs = args.split("<>");
+		
+		if(fullArgs.length<2)
+			return new String[] {"404"};
+
+		ResultSet rs = SQLGet.getInfoWhereAnd(conn, tableName, mathComparitors, fullArgs);
+
+        if(!rs.next())
+    		return new String[] {"404"};
+        
+        tableName = "accounts";
+        String columnName = "account";
+        String columnEquals = fullArgs[1];
+        
+        // delete the account from the accounts table. because the useraccounts table is set to cascade, it will delete on its own
+		SQLDelete.deleteRow(conn, tableName, columnName, columnEquals);
+        return new String[] {"200"};
+	}
+//	I added in a return of 200 if it worked
+}

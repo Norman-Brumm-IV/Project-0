@@ -1,0 +1,71 @@
+package patch;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/**	transfer funds from account 7 to account 8 (Body: {"amount":500}) return 404 if no client or either account exists return 422 if insufficient funds **/
+public class PatchClientsVarAccountsVarTransferVar {
+	/**	transfer funds from account 7 to account 8 (Body: {"amount":500}) return 404 if no client or either account exists return 422 if insufficient funds 
+	 * input - From account, To account, funds
+	 * @throws SQLException **/
+	public static String[] patCliVarAccVarTra(String args, Connection conn) throws SQLException {
+		String[] fullString = args.split("<>");
+		
+		if(fullString.length<3)
+			return new String[] {"404"};
+		
+		//saving the account that money is being transferred out of
+		String savedAccount = fullString[0] + "";
+		
+        // the first account should be the account we are transferring from, the second we are transferring to
+		String sql = "SELECT * FROM accounts WHERE account = ? OR account = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+
+		pstmt.setString(1, fullString[0]);
+		pstmt.setString(2, fullString[1]);
+		
+		double[] accountBalance = new double[2];
+		
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		int i = 0;
+		while(rs.next()) {
+			// shouldnt need this if, there should only be 2 results. There should also not be LESS than 2 results
+			if(i<2) {
+				accountBalance[i] = rs.getDouble("amount");
+				// turns out it returns them in the same order every time, no matter which was first. so some logic is going to be needed to make sure that the correct account gets reduced
+				fullString[i] = rs.getInt("account")+ "";
+			}
+			i++;
+		}
+		
+		// if there were less than 2 accounts, something was wrong
+		if(i<2)
+			return new String[] {"404"};
+		
+		accountBalance[0] -= Double.parseDouble(fullString[2]);
+		
+		//if removing the funds from the first account would send it negative, then return the code without changing the database
+		if(accountBalance[0]<0)
+			return new String[] {"422"};
+
+		accountBalance[1] += Double.parseDouble(fullString[2]);
+		
+		// updating the first account that went down
+		sql = "UPDATE accounts SET amount=? WHERE account=?";
+		pstmt = conn.prepareStatement(sql);
+
+		pstmt.setDouble(1, accountBalance[0]);
+		pstmt.setString(2, fullString[0]);
+		pstmt.executeQuery();
+
+		pstmt.setDouble(1, accountBalance[1]);
+		pstmt.setString(2, fullString[1]);
+		pstmt.execute();
+
+		return new String[] {"200"};
+	}
+}

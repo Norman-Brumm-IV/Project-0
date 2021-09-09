@@ -1,0 +1,12 @@
+package https;
+
+import io.javalin.http.Context;
+
+public class Get {
+	/**  
+	 * Gets all clients  
+	 **/
+	public static void getAllClients(Context ctx) {
+		
+	}
+}

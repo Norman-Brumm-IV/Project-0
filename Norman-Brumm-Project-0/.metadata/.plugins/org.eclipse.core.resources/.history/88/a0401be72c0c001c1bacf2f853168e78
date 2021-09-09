@@ -1,0 +1,22 @@
+package core;
+
+
+//Strips element 0 from the array and then adds a <> between elements
+public class StringArraytoLongString {
+	//Strips element 0 from the array and then adds a <> between elements
+	public static String toLongString(String[] args) {
+		StringBuilder finalProduct = new StringBuilder();
+		
+		for(int i=1;i<args.length;i++) {
+			finalProduct.append(args[i]);
+			if(i<args.length-1)
+				finalProduct.append("<>");
+		}
+
+		String tbr = finalProduct.toString();
+		
+		
+		return tbr;
+	}
+
+}

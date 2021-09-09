@@ -1,0 +1,14 @@
+package daos;
+
+import java.sql.Connection;
+
+public class PutDAO {
+	Connection conn;
+	private final static String CUSTOMERS = "customers";
+	private final static String ACCOUNTS = "accounts";
+	private final static String USERACCOUNTS = "useraccounts";
+	
+	public PutDAO(Connection conn) {
+		this.conn = conn;
+	}
+}

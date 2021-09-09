@@ -1,0 +1,13 @@
+package main;
+
+public class TestCode {
+
+	public static void main(String[] args) {
+		String[] stringArray = null, 
+				secondArray = new String[5];
+		
+		stringArray[1] = "test";
+}
+	
+
+}

@@ -1,0 +1,45 @@
+package get;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import tools.ArraylistToString;
+
+/**	get all accounts for client 7 between one number and a larger number return 404 if no client exists **/
+public class GetClientsVarAccountsBetween {
+	
+	/**	get all accounts for client 7 between one number and a larger number return 404 if no client exists **/
+	public static String[] getCliVarAccBet(String args, Connection conn) throws SQLException {
+		String[] fullArgs = args.split("<>");
+		// getting all the account numbers that are connected to the ssn that we passed in
+		//            SELECT * FROM useraccounts INNER JOIN (accounts) USING (account) WHERE ssn='461044607' AND amount > 400 AND amount < 850
+		String sql = "SELECT * FROM useraccounts INNER JOIN (accounts) USING (account) WHERE ssn = ? AND amount > ? AND amount < ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		if(fullArgs.length<3)
+			return new String[] {"404"};
+
+		ArrayList<String> accounts = new ArrayList<String>();
+		accounts.add("200");
+
+		pstmt.setString(1, fullArgs[0]);
+		pstmt.setString(2, fullArgs[1]);
+		pstmt.setString(3, fullArgs[2]);
+
+		
+		
+		pstmt.execute();
+		ResultSet rs = pstmt.getResultSet();
+        
+        while(rs.next()) {
+        	accounts.add(rs.getInt("account") + ":" + rs.getDouble("amount"));
+        }
+        
+        if(accounts.size()<2)
+        	return new String[] {"404"};
+        return ArraylistToString.toStringArray(accounts);
+	}
+	// return account:amount
+}

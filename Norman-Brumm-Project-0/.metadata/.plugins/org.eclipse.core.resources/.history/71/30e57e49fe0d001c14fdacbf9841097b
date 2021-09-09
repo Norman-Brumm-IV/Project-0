@@ -1,0 +1,17 @@
+package put;
+
+/** updates client with id of 12 return 404 if no such client exist **/
+public class PutClientsVar {
+
+	/** updates client with id of 12 return 404 if no such client exist 
+	 * @param args - should be ssn, name split by <>
+	 * **/
+	public static String[] putCliVar(String args) {
+		System.out.println("( ):(" + args + ")");
+		
+		String[] tempArray = args.split("<>");
+		
+		
+		return new String[] {"404"};
+	}
+}

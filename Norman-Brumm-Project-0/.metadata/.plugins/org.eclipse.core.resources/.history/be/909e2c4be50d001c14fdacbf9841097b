@@ -1,0 +1,68 @@
+package patch;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import sqlCommands.SQLGet;
+import sqlCommands.SQLPatch;
+
+/**	transfer funds from account 7 to account 8 (Body: {"amount":500}) return 404 if no client or either account exists return 422 if insufficient funds **/
+public class PatchClientsVarAccountsVarTransferVar {
+	private static final String tableNameAccounts = "accounts";
+	private static final String tableNameUserAccounts = "useraccounts";
+	private static final String[] mathStatements = {"ssn =","account ="};
+	private static final String[] e404 = new String[] {"404"}; // this one is just because I was tired of making a new string array each time
+	private static final String[] e422 = new String[] {"422"}; // this one is just because I was tired of making a new string array each time
+	 
+	/**	transfer funds from account 7 to account 8 (Body: {"amount":500}) return 404 if no client or either account exists return 422 if insufficient funds 
+	 * input - From account, To account, funds
+	 * @throws SQLException **/
+	public static String[] patCliVarAccVarTra(String args, Connection conn) throws SQLException {
+		String[] fullString = args.split("<>");
+		
+		if(fullString.length<4)
+			return e404;
+		
+		// while not truely needed, these variables are to make the code make more sense to me when looking back over it later
+		String ssn = fullString[0];
+		String accountTransferredFrom  = fullString[1];
+		String accountTransferredto = fullString[2];
+		Double accountTransferredFromAmount;
+		Double accountTransferredToAmount;
+		Double amountTransferred = 0.0;
+		
+		// making sure that the amount entered can be parsed as a double
+		try {
+		amountTransferred = Double.parseDouble(fullString[3]); 
+		} catch(NumberFormatException e) {
+			// TODO change to a logging statement
+			e.printStackTrace();
+			return e404;
+		}
+		
+        // the first account should be the account we are transferring from, the second we are transferring to
+		double[] accountBalance = new double[2];
+		
+		// need to make sure that the accounts belong to the user
+		ResultSet rs = SQLGet.getInfoWhereAndOr(true, conn, tableNameUserAccounts, mathStatements, new String[] {ssn, accountTransferredFrom});
+		if(rs.next()) {
+			accountTransferredFromAmount = rs.getDouble("amount");
+		} else 
+			return e404;
+		
+		rs = SQLGet.getInfoWhereAndOr(true, conn, tableNameUserAccounts, mathStatements, new String[] {ssn, accountTransferredto});
+		if(rs.next()) {
+			accountTransferredToAmount = rs.getDouble("amount");
+		} else
+			return e404;
+		
+		// I now have two accounts, time to transfer the money!
+		// the first method returns true if it succeeded in withdrawing the money. and false if it would drop it negative.
+		if(!PatchClientsVarAccountsVar.withdrawIntoAccountsTable(conn, amountTransferred, accountTransferredFrom))
+			return e422;
+		PatchClientsVarAccountsVar.depositIntoAccountsTable(conn, amountTransferred, accountTransferredto);
+
+		return new String[] {"200"};
+	}
+}

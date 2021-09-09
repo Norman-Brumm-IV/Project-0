@@ -1,0 +1,93 @@
+package sqlCommands;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/** This will hold all my SELECT statements and return ResultSets of their query. NO ERROR HANDLING IN THIS CLASS **/
+public class SQLGet {
+	/** returns a ResultSet with all of the table info in it. 
+	 * @throws SQLException **/
+	public static ResultSet getTable(Connection conn, String tableName) throws SQLException {
+		String sql = "SELECT * FROM " + tableName;
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		// TODO change the error handling
+		if(tableName.isEmpty())
+			return null;
+		
+		return pstmt.executeQuery(); 
+	}
+
+	/** returns a ResultSet with the column(s) matching the the selectColumn. 
+	 * @throws SQLException **/
+	public static ResultSet getColumnFromTable(Connection conn, String selectColumn, String tableName, String columnName, String matching) throws SQLException {
+		String sql = "SELECT " + selectColumn + " FROM " + tableName + " WHERE " + columnName + "= ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, matching);
+		
+		// TODO change the error handling
+		if(selectColumn.isEmpty() || tableName.isEmpty() || columnName.isEmpty() || matching.isEmpty())
+			return null;
+		
+		return pstmt.executeQuery(); 
+	}
+	
+	/** returns a ResultSet with a row of info from the table in it 
+	 * this is a = operation, not a like operation
+	 * SELECT * FROM tableName WHERE columnName = columnEquals
+	 * @throws SQLException 
+	 **/
+	public static ResultSet getInfoWhere(Connection conn, String tableName, String columnName ,String columnEquals) throws SQLException {
+		String sql = "SELECT * FROM " + tableName + " WHERE " + columnName + " = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		// TODO change the error handling
+		if(tableName.isEmpty())
+			return null;
+
+		pstmt.setString(1, columnEquals);
+		
+		System.out.println(columnEquals);
+		System.out.println(pstmt);
+
+		return pstmt.executeQuery();
+	}
+
+	/** 
+	 * returns a ResultSet with a row of info from the table in it 
+	 * SELECT * FROM tableName WHERE {statement} AND {any number of other statements}.
+	 * mathComparitors should be equal in length to compareWith. andOr - true is AND, false is OR.
+	 * @throws SQLException 
+	 **/
+	public static ResultSet getInfoWhereAndOr(boolean andOr, Connection conn, String tableName, String[] mathComparitors, String[] compareWith) throws SQLException {
+		//            SELECT * FROM useraccounts INNER JOIN (accounts) USING (account) WHERE ssn='461044607' AND amount > 400 AND amount < 850
+		// my tableName and mathComparitors have SQL text inside of it. It is expected and this part of the string is never accessible to users
+		String orAnd = " AND ";
+		
+		if(!andOr) {
+			orAnd = " OR ";
+		}
+		
+		// TODO change the error handling
+		if(tableName.isEmpty() || mathComparitors.length<1 || compareWith.length != mathComparitors.length)
+			return null;
+
+		StringBuilder sql = new StringBuilder("SELECT * FROM " + tableName + " WHERE ");
+	
+		sql.append(mathComparitors[0] + "?");
+		
+		for(int i=1;i<mathComparitors.length;i++)
+			sql.append(orAnd + mathComparitors[i] + "?");
+
+		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+
+		for(int i=0;i<compareWith.length;i++) {
+			pstmt.setString(i+1, compareWith[i]);
+		}
+		return pstmt.executeQuery();
+	}
+
+}

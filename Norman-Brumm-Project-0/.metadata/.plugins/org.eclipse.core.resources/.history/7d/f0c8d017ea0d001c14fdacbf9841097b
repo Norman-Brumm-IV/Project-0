@@ -1,0 +1,46 @@
+package delete;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import sqlCommands.SQLDelete;
+import sqlCommands.SQLGet;
+
+/**	deletes client with the id of 15 return 404 if no such client exist return 205 if success **/
+public class DeleteClientsVar {
+
+	/**	deletes client with the id of 15 return 404 if no such client exist return 205 if success **/
+	public static String[] delCliV(String ssn, Connection conn) throws SQLException {
+		ArrayList<String> accounts = new ArrayList<String>();
+		String selectColumn = "account";
+		String tableName = "useraccounts";
+		String columnName = "ssn";
+
+		// getting all the account numbers that are connected to the ssn that we passed in
+		if(ssn.isBlank())
+			return new String[] {"404"};
+
+		ResultSet rs = SQLGet.getColumnFromTable(conn, selectColumn, tableName, columnName, ssn);
+		
+        while(rs.next())
+        	accounts.add(rs.getString("account"));
+        
+//		if the account does not exist return 404
+        if(accounts.isEmpty())
+        	return new String[] {"404"};
+
+        // Deletes the accounts
+        for(String acc : accounts)
+        	SQLDelete.deleteRow(conn, "accounts", selectColumn, acc);
+        
+        // Deletes the client
+        SQLDelete.deleteRow(conn, "customers", columnName, ssn);
+		
+//		Success
+		return new String[] {"205"};
+		
+	}
+	
+}

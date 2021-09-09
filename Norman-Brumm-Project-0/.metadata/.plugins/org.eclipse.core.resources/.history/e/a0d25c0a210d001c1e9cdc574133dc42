@@ -1,0 +1,38 @@
+package get;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import sqlCommands.SQLGet;
+import tools.ArraylistToString;
+
+/**get account 4 for client 9 return 404 if no account or client exists**/
+public class GetClientsVarAccountsVar {
+	/**get account 4 for client 9 return 404 if no account or client exists
+	 * @throws SQLException **/
+	public static String[] getCliAccVar(String args, Connection conn) throws SQLException {
+		String tableName = "useraccounts INNER JOIN (accounts) USING (account)";
+		String[] mathComparitor = {"ssn =", "account ="};
+		String[] fullString = args.split("<>");
+
+        // getting all amounts for that client who has that ssn, and account number. there is only 1 because that field is unique
+		if(args.isEmpty())
+			return new String[] {"404"};
+
+		ArrayList<String> accounts = new ArrayList<String>();
+		accounts.add("200");
+		ResultSet rs = SQLGet.getInfoWhereAnd(conn, tableName, mathComparitor, fullString);
+		
+		while(rs.next())
+			accounts.add("" + rs.getDouble("amount"));
+		
+		if(accounts.size()<2)
+			return new String[] {"404"};
+		
+		String[] returnString = ArraylistToString.toStringArray(accounts);
+		
+		return returnString;
+	}
+}

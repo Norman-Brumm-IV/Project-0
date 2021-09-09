@@ -1,0 +1,5 @@
+package sqlCommands;
+
+public class SQLDelete {
+
+}

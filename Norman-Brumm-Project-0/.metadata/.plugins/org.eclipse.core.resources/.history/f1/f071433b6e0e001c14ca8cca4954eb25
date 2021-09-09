@@ -1,0 +1,61 @@
+package https;
+
+import java.sql.SQLException;
+
+import core.ConnectionDriver;
+import daoModels.CustomersRow;
+import daos.GetDAO;
+import io.javalin.http.Context;
+import tools.CheckWrongData;
+
+public class Get {
+	
+	/**  
+	 * Gets all clients
+	 * @throws SQLException 
+	 **/
+	public static void getAllClients(Context ctx) throws SQLException {
+		GetDAO cussTable = new GetDAO(ConnectionDriver.getConnection());
+		ctx.json(cussTable.getAllCustomers());
+	}
+	
+	/**get client with id of 10 return 404 if no such client exist 
+	 * @throws SQLException 
+	 * **/
+	public static void getClientByID(Context ctx) throws SQLException {
+		GetDAO dao = new GetDAO(ConnectionDriver.getConnection());
+		String ssnID = ctx.pathParam("id");
+		if(CheckWrongData.checkSSNAndAccountNumber(ssnID)) {
+			ctx.status(400);
+			ctx.result("User ID missing or incorrect format");
+			return;
+		}
+		
+		CustomersRow row = dao.getCustomerByID(Integer.parseInt(ssnID));
+		if(row == null) {
+			ctx.status(404);
+			ctx.result("Customer not found");
+			return;
+		}
+			
+		ctx.json(row);
+	}
+	
+	public static void getClientNameByID(Context ctx) throws SQLException {
+		GetDAO dao = new GetDAO(ConnectionDriver.getConnection());
+		String ssnID = ctx.pathParam("id");
+		if(CheckWrongData.checkSSNAndAccountNumber(ssnID)) {
+			ctx.status(400);
+			ctx.result("User ID missing or incorrect format");
+			return;
+		}
+		
+		CustomersRow row = dao.getClientNameByID(Integer.parseInt(ssnID));
+		if(row == null) {
+			ctx.status(404);
+			ctx.result("Customer not found");
+			return;
+		}
+		ctx.json(row);
+	}
+}

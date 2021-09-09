@@ -1,0 +1,5 @@
+package daoModels;
+
+public abstract class RowGeneric {
+
+}

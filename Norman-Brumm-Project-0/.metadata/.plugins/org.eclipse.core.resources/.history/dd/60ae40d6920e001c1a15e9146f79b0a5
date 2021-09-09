@@ -1,0 +1,14 @@
+package daos;
+
+import java.sql.Connection;
+
+public class DeleteDAO {
+		Connection conn;
+		private final static String customers = "customers";
+		private final static String accounts = "accounts";
+		private final static String userAccounts = "useraccounts";
+		
+		public DeleteDAO(Connection conn) {
+			this.conn = conn;
+		}
+}

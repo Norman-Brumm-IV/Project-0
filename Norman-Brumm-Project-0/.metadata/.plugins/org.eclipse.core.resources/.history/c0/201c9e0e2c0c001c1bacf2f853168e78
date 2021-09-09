@@ -1,0 +1,15 @@
+package core;
+
+public class StringArraytoLongString {
+	public static String toLongString(String[] args) {
+		StringBuilder finalProduct = null;
+		
+		for(String tempString : args) {
+			finalProduct.append(tempString);
+		}
+		
+		
+		return null;
+	}
+
+}

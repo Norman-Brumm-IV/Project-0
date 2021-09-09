@@ -1,0 +1,6 @@
+package daoModels;
+
+public interface TMod<T> {
+	
+
+}

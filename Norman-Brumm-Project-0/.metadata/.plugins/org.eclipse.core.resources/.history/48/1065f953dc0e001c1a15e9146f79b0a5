@@ -1,0 +1,59 @@
+package miscTools;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class PrintOutAllDataToConsole {
+	public static void printIt(Connection conn) {
+		String getAccountsTable = "SELECT * FROM accounts";
+		String getCustomersTable = "SELECT * FROM customers";
+		String getUserAccountsTable = "SELECT * FROM useraccounts";
+		
+		try {
+			int count = 1;
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(getAccountsTable);
+
+            System.out.println("================ Account Amount table =================");
+            while(rs.next()) {
+                System.out.println(count + ". Account #: [" + rs.getString("account") + "]   amount: [" + rs.getString("amount") + "]");
+                count++;
+            }
+            System.out.println("=============== /Account Amount table =================");
+            System.out.println();
+            System.out.println();
+            
+            
+            rs = stmt.executeQuery(getCustomersTable);
+            count = 1;
+            System.out.println("================ Customers table =================");
+            while(rs.next()) {
+                System.out.println(count + ". SSN: [" + rs.getInt("ssn") + "]   Name: [" + rs.getString("name") + "]");
+                count++;
+            }
+            System.out.println("=============== /Customers table =================");
+            System.out.println();
+            System.out.println();
+            
+            
+            rs = stmt.executeQuery(getUserAccountsTable);
+
+            count = 1;
+            System.out.println("================ Users Accounts Table =================");
+            while(rs.next()) {
+                System.out.println(count + ". SSN: [" + rs.getInt("ssn") + "]   Account #: [" + rs.getInt("account") + "]");
+                count++;
+            }
+            System.out.println("=============== /Users Accounts Table =================");
+            System.out.println();
+            System.out.println();
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+	}
+
+}

@@ -1,0 +1,25 @@
+package daoModels;
+
+public class UserAccountRow {
+	private int ssn;
+	private int account;
+	
+	public UserAccountRow() {};
+	public UserAccountRow(int ssn, int account) {
+		this.ssn = ssn;
+		this.account = account;
+	}
+	
+	public static int getSsn() {
+		return ssn;
+	}
+	public static void setSsn(int ssn) {
+		UserAccountRow.ssn = ssn;
+	}
+	public static int getAccount() {
+		return account;
+	}
+	public static void setAccount(int account) {
+		UserAccountRow.account = account;
+	}
+}

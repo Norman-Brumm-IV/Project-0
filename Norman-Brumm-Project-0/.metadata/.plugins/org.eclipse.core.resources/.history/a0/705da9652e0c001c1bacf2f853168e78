@@ -1,0 +1,15 @@
+package core;
+
+import java.util.ArrayList;
+
+public class StringTheArraylist {
+	
+	public static String[] toStringArray(ArrayList<String> args) {
+		String[] newArray = new String[args.size()];
+		for(int i=0;i<newArray.length;i++)
+			newArray[i] = args.get(i);
+		
+		return newArray;
+	}
+
+}

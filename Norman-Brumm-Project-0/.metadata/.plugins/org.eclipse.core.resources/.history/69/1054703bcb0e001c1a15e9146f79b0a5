@@ -1,0 +1,27 @@
+package https;
+
+import java.sql.SQLException;
+
+import core.ConnectionDriver;
+import daos.PatchDAO;
+import io.javalin.http.Context;
+import tools.CheckWrongData;
+
+public class Patch {
+	/**  Withdraw/deposit given amount (Body: {"deposit":500} or {"withdraw":250} return 404 if no account or client exists return 422 if insufficient funds 
+	 * @throws SQLException **/
+	public static void depositWithdraw(Context ctx) throws SQLException {
+		PatchDAO dao = new PatchDAO(ConnectionDriver.getConnection());
+		String ssn = ctx.pathParam("id");
+		String accountNumber = ctx.pathParam("accountNumber");
+		
+		if(CheckWrongData.checkSSNAndAccountNumber(ssn, accountNumber)) {
+			ctx.status(400);
+			ctx.result("User ID missing or incorrect format");
+			return;
+		}
+		
+		dao.deposotWithdraw(ctx, ssn, accountNumber);
+	}
+
+}

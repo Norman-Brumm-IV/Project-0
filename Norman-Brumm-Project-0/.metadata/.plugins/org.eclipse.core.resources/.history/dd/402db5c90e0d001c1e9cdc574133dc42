@@ -1,0 +1,45 @@
+package sqlCommands;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/** This will hold all my SELECT statements and return ResultSets of their query. NO ERROR HANDLING IN THIS CLASS **/
+public class GetAllinfo {
+	/** returns a ResultSet with all of the table info in it. 
+	 * @throws SQLException **/
+	public static ResultSet getInfo(Connection conn, String tableName) throws SQLException {
+		String sql = "SELECT * FROM ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		// TODO change the error handling
+		if(tableName.isEmpty())
+			return null;
+
+		pstmt.setString(1, tableName);
+
+		return pstmt.executeQuery(); 
+	}
+	
+	/** returns a ResultSet with a row of info from the table in it 
+	 * this is a = operation, not a like operation
+	 * SELECT * FROM tableName WHERE columnName = columnEquals
+	 * @throws SQLException 
+	 **/
+	public static ResultSet getInfoWhere(Connection conn, String tableName, String columnName ,String columnEquals) throws SQLException {
+		String sql = "SELECT * FROM ? WHERE ? = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		// TODO change the error handling
+		if(tableName.isEmpty())
+			return null;
+
+		pstmt.setString(1, tableName);
+		pstmt.setString(2, columnName);
+		pstmt.setString(3, columnEquals);
+
+		return pstmt.executeQuery();
+	}
+
+}

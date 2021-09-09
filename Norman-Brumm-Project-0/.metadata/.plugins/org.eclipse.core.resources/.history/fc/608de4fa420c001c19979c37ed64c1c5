@@ -1,0 +1,15 @@
+package tools;
+
+import java.util.ArrayList;
+
+/** Takes a string ArrayList and turns it into a string array**/
+public class StringTheArraylist {
+	
+	public static String[] toStringArray(ArrayList<String> args) {
+		String[] newArray = new String[args.size()];
+		for(int i=0;i<newArray.length;i++)
+			newArray[i] = args.get(i);
+		
+		return newArray;
+	}
+}

@@ -1,0 +1,14 @@
+package daoModels;
+
+import java.util.ArrayList;
+
+public class CustomersTable {
+	private ArrayList<CustomersRow> row;
+
+	public CustomersTable() {
+		row = new ArrayList<CustomersRow>();
+	}
+	
+	
+
+}

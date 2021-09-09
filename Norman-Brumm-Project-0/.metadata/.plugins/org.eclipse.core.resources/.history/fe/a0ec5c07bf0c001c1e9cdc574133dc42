@@ -1,0 +1,11 @@
+package patch;
+
+/**	transfer funds from account 7 to account 8 (Body: {"amount":500}) return 404 if no client or either account exists return 422 if insufficient funds **/
+public class PatchClientsVarAccountsVarTransferVar {
+	/**	transfer funds from account 7 to account 8 (Body: {"amount":500}) return 404 if no client or either account exists return 422 if insufficient funds **/
+	public static String[] patCliVarAccVarTra(String args) {
+		// TODO Auto-generated method stub
+	
+		return new String[] {"404", "402"};
+	}
+}

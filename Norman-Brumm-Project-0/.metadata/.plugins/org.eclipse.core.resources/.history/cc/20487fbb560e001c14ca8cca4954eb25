@@ -1,0 +1,9 @@
+package https;
+
+import io.javalin.http.Context;
+
+public class Get {
+	public static void getAll(Context ctx) {
+		
+	}
+}

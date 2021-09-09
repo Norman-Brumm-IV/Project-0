@@ -1,0 +1,10 @@
+package daoModels;
+
+import java.util.ArrayList;
+
+public interface TableInterface<row> {
+	public ArrayList<row> getRows();
+	public void addRow(row row);
+	public row newRow();
+
+}

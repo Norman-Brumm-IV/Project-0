@@ -1,0 +1,20 @@
+package sqlCommands;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class SQLPatch {
+
+	/** UPDATE tableName SET setColumnName=setChange WHERE whereColumn=whereSelection **/
+	public static void updateValue(Connection conn, String tableName, String setColumnName, String setChange, String whereColumn, String whereSelection) throws SQLException {
+		// "UPDATE tableName SET setColumnName=setChange WHERE whereColumn=whereSelection";
+		String sql = "UPDATE " + tableName + " SET " + setColumnName + "=? WHERE " + whereColumn + "=?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, setChange);
+		pstmt.setString(2, whereSelection);
+		pstmt.execute();
+	}
+
+}

@@ -1,0 +1,64 @@
+package sqlCommands;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/** This will hold all my SELECT statements and return ResultSets of their query. NO ERROR HANDLING IN THIS CLASS **/
+public class GetAllinfo {
+	/** returns a ResultSet with all of the table info in it. 
+	 * @throws SQLException **/
+	public static ResultSet getInfo(Connection conn, String tableName) throws SQLException {
+		String sql = "SELECT * FROM ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		// TODO change the error handling
+		if(tableName.isEmpty())
+			return null;
+
+		pstmt.setString(1, tableName);
+
+		return pstmt.executeQuery(); 
+	}
+	
+	/** returns a ResultSet with a row of info from the table in it 
+	 * this is a = operation, not a like operation
+	 * SELECT * FROM tableName WHERE columnName = columnEquals
+	 * @throws SQLException 
+	 **/
+	public static ResultSet getInfoWhere(Connection conn, String tableName, String columnName ,String columnEquals) throws SQLException {
+		String sql = "SELECT * FROM ? WHERE ? = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		// TODO change the error handling
+		if(tableName.isEmpty())
+			return null;
+
+		pstmt.setString(1, tableName);
+		pstmt.setString(2, columnName);
+		pstmt.setString(3, columnEquals);
+
+		return pstmt.executeQuery();
+	}
+
+	/** returns a ResultSet with a row of info from the table in it 
+	 * this is a = operation, not a like operation
+	 * SELECT * FROM tableName WHERE {statement} AND {any number of other statements}
+	 * @throws SQLException 
+	 **/
+	public static ResultSet getInfoWhereAnd(Connection conn, String tableName, String... string) throws SQLException {
+		//            SELECT * FROM useraccounts INNER JOIN (accounts) USING (account) WHERE ssn='461044607' AND amount > 400 AND amount < 850
+		// my tableName has SQL injection inside of it. it is expected and this part of the string is never accessible to users
+		
+		String sql = "SELECT * FROM " + tableName + " WHERE ";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		// TODO change the error handling
+		if(tableName.isEmpty())
+			return null;
+		
+		return null;
+	}
+
+}

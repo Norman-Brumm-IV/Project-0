@@ -1,0 +1,50 @@
+package post;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.SQLInput;
+
+/**	Creates a new client. Returns a 201 status code if successful, and a 406 if not enough info or the wrong type. 409 if the user already exists**/
+public class PostClients {
+	/**	Creates a new client return a 201 status code. 
+	 * Input -> SSN, Name
+	 * @throws SQLException **/
+	public static String[] posCli(String args, Connection conn) throws SQLException {
+		/*
+		 * 
+		 * this is where I use my get class and make sure that there is no previous person with this ssn in the database already
+		 * 
+		 */
+		if(args.isEmpty())
+			return new String[] {"406"};
+		
+		String[] fullString = args.split("<>");
+		if(fullString.length<2)
+			return new String[] {"406"};
+		
+		// the following vars are only to make the rest of the code easier to read
+		String ssn = fullString[0];
+		String newUserName = fullString[1];
+		
+		String returnCode = SQLInput.newCustomer(conn, ssn, newUserName);
+		
+		
+		
+		String sql = "INSERT INTO customers VALUES (?, ?);";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		if(args.isEmpty())
+			return new String[] {"400"};
+		if(fullString.length<2)
+			return new String[] {"400"};
+		
+		pstmt.setString(1, fullString[0]);
+		pstmt.setString(2, fullString[1]);
+
+		pstmt.executeQuery();
+		
+		return new String[] {"201"};
+	}
+
+}
